@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="MediScan AI — Intelligent symptom-based early disease detection system.">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2300BFA6'/><path d='M10 50h18l12-30 18 60 12-30h20' stroke='white' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
     <title>MediScan AI — Disease Predictor</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2300BFA6'/><path d='M10 50h18l12-30 18 60 12-30h20' stroke='white' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
@@ -22,7 +24,6 @@
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase.js"></script>
-
 </head>
 
 <body>
@@ -95,18 +96,11 @@
     <!-- ── NAVBAR ── -->
     <nav class="nav-bar">
         <div class="nav-brand">
-            <!-- ECG SVG logo icon -->
-            <div class="nav-brand-icon-svg">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a1628" stroke-width="2.4"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                </svg>
-            </div>
+            <div class="nav-brand-icon">⚕️</div>
             <span class="nav-brand-text">Medi<span>Scan</span> AI</span>
         </div>
 
         <div class="nav-actions">
-            <!-- Profile button -->
             <button class="nav-btn nav-btn-profile" id="profileBtn" aria-label="Profile">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round">
@@ -116,7 +110,6 @@
                 <span>Profile</span>
             </button>
 
-            <!-- Logout button -->
             <button class="nav-btn nav-btn-logout" id="logoutBtn" aria-label="Logout">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round">
@@ -134,16 +127,7 @@
 
         <!-- HEADER -->
         <header>
-            <!-- Logo + Title row -->
-            <div class="header-logo">
-                <div class="header-logo-icon">
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0a1628" stroke-width="2.4"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                    </svg>
-                </div>
-                <h1>MediScan AI</h1>
-            </div>
+            <h1>MediScan AI</h1>
             <p>Intelligent AI Medical Screening System</p>
             <p class="user-greeting" id="userGreeting">
                 <span id="greetText"></span><span class="cursor"></span>
@@ -170,105 +154,82 @@
         <section class="disease-section">
             <div class="disease-grid" id="diseaseGrid">
 
-                <!-- TIER 1 — HIGHEST PREVALENCE -->
                 <div class="disease-card" data-disease="diabetes">
                     <h3>Type 2 Diabetes</h3>
                     <p>Blood sugar symptom analysis</p>
                 </div>
-
                 <div class="disease-card" data-disease="hypertension">
                     <h3>Hypertension</h3>
                     <p>Blood pressure risk screening</p>
                 </div>
-
                 <div class="disease-card" data-disease="hepatitis">
                     <h3>Hepatitis B &amp; C</h3>
                     <p>Liver infection symptom analysis</p>
                 </div>
-
                 <div class="disease-card" data-disease="tuberculosis">
                     <h3>Tuberculosis (TB)</h3>
                     <p>Respiratory infection screening</p>
                 </div>
-
                 <div class="disease-card" data-disease="typhoid">
                     <h3>Typhoid Fever</h3>
                     <p>Bacterial infection symptom analysis</p>
                 </div>
-
-                <!-- TIER 2 — VERY COMMON & HIGH IMPACT -->
                 <div class="disease-card" data-disease="dengue">
                     <h3>Dengue Fever</h3>
                     <p>Viral fever and platelet analysis</p>
                 </div>
-
                 <div class="disease-card" data-disease="heart-disease">
                     <h3>Heart Disease (CAD)</h3>
                     <p>Cardiac risk factor screening</p>
                 </div>
-
                 <div class="disease-card" data-disease="malaria">
                     <h3>Malaria</h3>
                     <p>Parasitic infection symptom analysis</p>
                 </div>
-
                 <div class="disease-card" data-disease="asthma">
                     <h3>Asthma / COPD</h3>
                     <p>Breathing and lung analysis</p>
                 </div>
-
                 <div class="disease-card" data-disease="kidney-disease">
                     <h3>Chronic Kidney Disease</h3>
                     <p>Renal function symptom screening</p>
                 </div>
-
-                <!-- TIER 3 — HIGH DEMAND & UNDERSERVED -->
                 <div class="disease-card" data-disease="anemia">
                     <h3>Iron-Deficiency Anemia</h3>
                     <p>Fatigue and weakness analysis</p>
                 </div>
-
                 <div class="disease-card" data-disease="thyroid">
                     <h3>Thyroid Disorders</h3>
                     <p>Hormonal imbalance screening</p>
                 </div>
-
                 <div class="disease-card" data-disease="cholera">
                     <h3>Cholera / Gastroenteritis</h3>
                     <p>Water-borne infection analysis</p>
                 </div>
-
                 <div class="disease-card" data-disease="breast-cancer">
                     <h3>Breast Cancer</h3>
                     <p>Early warning symptom screening</p>
                 </div>
-
                 <div class="disease-card" data-disease="pneumonia">
                     <h3>Pneumonia</h3>
                     <p>Lung infection symptom analysis</p>
                 </div>
-
-                <!-- TIER 4 — GROWING NEED & TECH-SAVVY USERS -->
                 <div class="disease-card" data-disease="depression">
                     <h3>Depression / Anxiety</h3>
                     <p>Mental health symptom screening</p>
                 </div>
-
                 <div class="disease-card" data-disease="skin-disease">
                     <h3>Skin Diseases</h3>
                     <p>Eczema and psoriasis analysis</p>
                 </div>
-
                 <div class="disease-card" data-disease="uti">
                     <h3>Urinary Tract Infection</h3>
                     <p>Urinary symptom analysis</p>
                 </div>
-
                 <div class="disease-card" data-disease="obesity">
                     <h3>Obesity</h3>
                     <p>BMI and metabolic risk screening</p>
                 </div>
-
                 <div class="disease-card" data-disease="pcos">
                     <h3>PCOS</h3>
                     <p>Hormonal and cycle pattern analysis</p>
@@ -287,7 +248,6 @@
     <script src="js/search.js"></script>
     <script src="js/animations.js"></script>
     <script>
-        // ── Disclaimer — show once per session ───────────────────
         const overlay = document.getElementById("disclaimerOverlay");
         overlay.style.display = sessionStorage.getItem("disclaimerShown") ? "none" : "flex";
 
@@ -296,7 +256,6 @@
             overlay.style.display = "none";
         });
 
-        // ── Greeting — typewriter animation ───────────────────────
         if (window.supabaseClient) {
             window.supabaseClient.auth.getSession().then(({ data }) => {
                 const user = data?.session?.user;
@@ -311,7 +270,6 @@
                 const name = rawName.charAt(0).toUpperCase() + rawName.slice(1);
                 const fullText = "Hello, " + name;
 
-                // Populate profile modal
                 const profileName = document.getElementById("profileName");
                 const profileEmail = document.getElementById("profileEmail");
                 const profileAvatar = document.querySelector(".profile-avatar");
@@ -319,7 +277,6 @@
                 if (profileEmail) profileEmail.textContent = user.email || "—";
                 if (profileAvatar) profileAvatar.textContent = name.charAt(0).toUpperCase();
 
-                // Typewriter greeting
                 const el = document.getElementById("userGreeting");
                 if (!el) return;
                 el.classList.add("visible");
@@ -339,7 +296,6 @@
             });
         }
 
-        // ── Profile modal ─────────────────────────────────────────
         const profileOverlay = document.getElementById("profileOverlay");
 
         document.getElementById("profileBtn").addEventListener("click", () => {
@@ -354,7 +310,6 @@
             if (e.target === profileOverlay) profileOverlay.classList.remove("open");
         });
 
-        // ── Logout ────────────────────────────────────────────────
         document.getElementById("logoutBtn").addEventListener("click", async () => {
             const btn = document.getElementById("logoutBtn");
             btn.style.opacity = "0.5";
