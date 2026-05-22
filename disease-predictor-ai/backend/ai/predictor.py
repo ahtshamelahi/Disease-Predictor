@@ -30,6 +30,7 @@ def predict_disease(disease_type, answers):
 
     df = pd.DataFrame([input_data])
     df = df.reindex(columns=features, fill_value=0)
+    df = df.fillna(0).astype(float)
 
     prob          = model.predict_proba(df)[0]
     pos_prob      = round(float(prob[1]) * 100, 1)
