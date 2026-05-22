@@ -109,44 +109,50 @@ DEFAULT = {
     "warnings"  : ["This is AI screening only — not a medical diagnosis"],
 }
 
+def _safe_float(answers, key):
+    """Safely get a float from answers — handles None, missing, and invalid values."""
+    val = answers.get(key)
+    try:
+        return float(val or 0)
+    except (TypeError, ValueError):
+        return 0.0
+
 def get_advice(disease_key: str, prediction: str, confidence: float, answers: dict = None) -> dict:
     base = ADVICE.get(disease_key, DEFAULT)
     answers = answers or {}
-    
+
     if prediction == "Negative" and confidence < 40:
-        # Low risk — lighter advice
         return {
             "medicines": ["No medication needed at this stage"],
             "tips": ["Maintain a healthy lifestyle", "Monitor any symptoms if they appear"] + base["tips"][:1],
             "warnings": ["Continue monitoring your health regularly"],
         }
-    
-    # High-risk / Moderate-risk: return full advice and add symptom-specific logic
-    tips = list(base["tips"])
-    warnings = list(base["warnings"])
+
+    tips      = list(base["tips"])
+    warnings  = list(base["warnings"])
     medicines = list(base["medicines"])
-    
+
     # --- Symptom-specific additions ---
     if disease_key == "diabetes":
-        glucose = float(answers.get("fasting_glucose_mg_dl", 0))
+        glucose = _safe_float(answers, "fasting_glucose_mg_dl")
         if glucose > 200:
             warnings.append("Glucose above 200 mg/dL — see doctor within 48 hours")
         if answers.get("slow_healing_wounds") in ["yes", "true", True]:
             tips.append("Check feet daily — diabetic wounds need immediate attention")
-            
+
     elif disease_key == "hypertension":
-        systolic = float(answers.get("systolic_bp", 0))
+        systolic = _safe_float(answers, "systolic_bp")
         if systolic > 180:
             warnings.append("CRITICAL: Systolic BP above 180 is a hypertensive crisis. Seek emergency care immediately.")
-            
+
     elif disease_key == "heart-disease":
         if answers.get("pain_radiating_arm") in ["yes", "true", True]:
             warnings.append("URGENT: Pain radiating to the arm is a major heart attack warning sign. Call emergency services.")
-            
+
     elif disease_key == "asthma":
         if answers.get("night_symptoms") in ["yes", "true", True]:
             tips.append("Keep your reliever inhaler bedside for night-time asthma attacks.")
-            
+
     elif disease_key == "kidney-disease":
         if answers.get("blood_in_urine") in ["yes", "true", True]:
             warnings.append("Blood in urine detected. Immediate urological or nephrological evaluation is required.")
