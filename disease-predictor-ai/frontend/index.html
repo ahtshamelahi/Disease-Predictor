@@ -21,6 +21,7 @@
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase.js"></script>
+
 </head>
 
 <body>
@@ -93,7 +94,13 @@
     <!-- ── NAVBAR ── -->
     <nav class="nav-bar">
         <div class="nav-brand">
-            <div class="nav-brand-icon">⚕️</div>
+            <!-- ECG SVG logo icon -->
+            <div class="nav-brand-icon-svg">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a1628" stroke-width="2.4"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                </svg>
+            </div>
             <span class="nav-brand-text">Medi<span>Scan</span> AI</span>
         </div>
 
@@ -126,7 +133,16 @@
 
         <!-- HEADER -->
         <header>
-            <h1>MediScan AI</h1>
+            <!-- Logo + Title row -->
+            <div class="header-logo">
+                <div class="header-logo-icon">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0a1628" stroke-width="2.4"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                    </svg>
+                </div>
+                <h1>MediScan AI</h1>
+            </div>
             <p>Intelligent AI Medical Screening System</p>
             <p class="user-greeting" id="userGreeting">
                 <span id="greetText"></span><span class="cursor"></span>
@@ -333,7 +349,6 @@
             profileOverlay.classList.remove("open");
         });
 
-        // Close profile modal on backdrop click
         profileOverlay.addEventListener("click", (e) => {
             if (e.target === profileOverlay) profileOverlay.classList.remove("open");
         });
