@@ -4,7 +4,8 @@ import pandas as pd
 from backend.ai.preprocess import preprocess_answers
 from backend.ai.advice import get_advice
 
-MODELS_DIR = r"D:\disease predictor\disease-predictor-ai\backend\models"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODELS_DIR = os.path.join(BASE_DIR, "..", "models")
 
 def load_model(disease_key):
     model_path   = os.path.join(MODELS_DIR, f"{disease_key}_model.pkl")
