@@ -1,0 +1,709 @@
+/* ═══════════════════════════════════════════════════════════════
+   modal.css — MediScan AI  |  Question modal + Navbar UI
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── NAVBAR ──────────────────────────────────────────────────── */
+.nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8, 20, 27, 0.85);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(0, 191, 166, 0.1);
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-brand-icon {
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    box-shadow: 0 4px 14px var(--primary-glow);
+    flex-shrink: 0;
+}
+
+.nav-brand-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+}
+
+.nav-brand-text span {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ── PROFILE BUTTON ──────────────────────────────────────────── */
+.nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0.45rem 1.1rem;
+    border-radius: 99px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--font);
+    transition: all 0.2s var(--ease);
+    border: 1px solid transparent;
+    text-decoration: none;
+}
+
+.nav-btn-profile {
+    background: rgba(0, 191, 166, 0.08);
+    border-color: rgba(0, 191, 166, 0.2);
+    color: var(--accent);
+}
+
+.nav-btn-profile:hover {
+    background: rgba(0, 191, 166, 0.16);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-dim);
+    transform: translateY(-1px);
+}
+
+.nav-btn-profile svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.nav-btn-logout {
+    background: rgba(255, 107, 107, 0.08);
+    border-color: rgba(255, 107, 107, 0.22);
+    color: #ff8f8f;
+}
+
+.nav-btn-logout:hover {
+    background: rgba(255, 107, 107, 0.16);
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.1);
+    transform: translateY(-1px);
+}
+
+.nav-btn-logout svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* greeting pill in nav */
+.nav-greeting {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    padding: 0.4rem 0.9rem;
+    background: rgba(0, 191, 166, 0.05);
+    border: 1px solid rgba(0, 191, 166, 0.1);
+    border-radius: 99px;
+    display: none; /* shown via JS */
+}
+
+.nav-greeting.visible {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-greeting .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 0.8em;
+    background: var(--accent);
+    margin-left: 1px;
+    border-radius: 1px;
+    animation: blink 0.75s step-start infinite;
+}
+
+/* ── PROFILE MODAL ───────────────────────────────────────────── */
+.profile-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 8000;
+    padding: 1.5rem;
+    backdrop-filter: blur(12px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+}
+
+.profile-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.profile-box {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 0 0 1px rgba(0, 191, 166, 0.06), 0 32px 72px rgba(0, 0, 0, 0.55);
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-overlay.open .profile-box {
+    transform: scale(1) translateY(0);
+}
+
+.profile-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 20px 20px 0 0;
+}
+
+.profile-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.2rem;
+    font-size: 2rem;
+    box-shadow: 0 0 30px var(--primary-glow);
+}
+
+.profile-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+}
+
+.profile-email {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.profile-coming-soon {
+    background: rgba(0, 191, 166, 0.06);
+    border: 1px solid rgba(0, 191, 166, 0.15);
+    border-radius: var(--r);
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.profile-coming-soon .icon {
+    font-size: 2rem;
+    margin-bottom: 0.6rem;
+}
+
+.profile-coming-soon h3 {
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+.profile-coming-soon p {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    line-height: 1.6;
+}
+
+.profile-close-btn {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #fff;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: var(--r-sm);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    font-family: var(--font);
+    box-shadow: 0 4px 22px var(--primary-glow);
+    transition: opacity 0.18s, transform 0.15s;
+}
+
+.profile-close-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* ── QUESTION OVERLAY MODAL ──────────────────────────────────── */
+.question-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5000;
+    padding: 1.5rem;
+    backdrop-filter: blur(16px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.question-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.question-modal {
+    background: rgba(13, 34, 48, 0.95);
+    border: 1px solid rgba(0, 191, 166, 0.18);
+    border-radius: 22px;
+    padding: 2.4rem 2rem;
+    max-width: 580px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow:
+        0 0 0 1px rgba(0, 191, 166, 0.06),
+        0 40px 80px rgba(0, 0, 0, 0.6),
+        0 0 60px rgba(0, 191, 166, 0.06);
+    transform: scale(0.92) translateY(30px);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    /* custom scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,191,166,0.25) transparent;
+}
+
+.question-modal::-webkit-scrollbar {
+    width: 5px;
+}
+.question-modal::-webkit-scrollbar-track {
+    background: transparent;
+}
+.question-modal::-webkit-scrollbar-thumb {
+    background: rgba(0,191,166,0.3);
+    border-radius: 99px;
+}
+
+.question-overlay.open .question-modal {
+    transform: scale(1) translateY(0);
+}
+
+/* top gradient bar */
+.question-modal::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+}
+
+/* scrollable inner */
+.question-modal-inner {
+    overflow-y: auto;
+    max-height: calc(88vh - 5rem);
+}
+
+.question-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.question-modal-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.question-modal-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 191, 166, 0.1);
+    color: var(--primary);
+    padding: 0.4rem 1rem;
+    border-radius: 99px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border: 1px solid rgba(0, 191, 166, 0.18);
+}
+
+.question-modal-disease {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 0.35rem 0.9rem;
+    border-radius: 99px;
+}
+
+/* ── QUESTION CARD (inside modal) ────────────────────────────── */
+.question-card {
+    background: rgba(0, 191, 166, 0.04);
+    border-radius: var(--r);
+    padding: 1.6rem;
+    border-left: 3px solid var(--primary);
+}
+
+.question-card h2 {
+    margin-bottom: 1.4rem;
+    line-height: 1.55;
+    font-size: 1rem;
+    color: var(--text);
+    font-weight: 500;
+}
+
+/* progress bar */
+.progress-bar-wrap {
+    height: 4px;
+    background: rgba(0, 191, 166, 0.12);
+    border-radius: 99px;
+    margin-bottom: 1.2rem;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 99px;
+    transition: width 0.4s var(--ease);
+}
+
+.q-counter {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 1.1rem;
+    font-weight: 500;
+}
+
+/* ── OPTION BUTTONS ──────────────────────────────────────────── */
+.btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.btn-group button,
+.option-btn {
+    padding: 0.62rem 1.3rem;
+    border: 1px solid rgba(0, 191, 166, 0.22);
+    border-radius: var(--r-sm);
+    background: var(--secondary);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 0.87rem;
+    cursor: pointer;
+    transition: background 0.18s, border-color 0.18s, transform 0.12s, box-shadow 0.18s;
+}
+
+.btn-group button:hover,
+.option-btn:hover {
+    transform: translateY(-2px);
+    background: rgba(0, 191, 166, 0.14);
+    border-color: var(--primary);
+    box-shadow: 0 4px 14px rgba(0, 191, 166, 0.14);
+}
+
+.skip-btn {
+    background: transparent !important;
+    border-color: rgba(230, 244, 241, 0.12) !important;
+    color: var(--text-muted) !important;
+}
+
+.skip-btn:hover {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border-color: rgba(230, 244, 241, 0.25) !important;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.input-group input,
+.bmi-group input {
+    flex: 1;
+    padding: 0.72rem 1rem;
+    border-radius: var(--r-sm);
+    border: 1px solid rgba(0, 191, 166, 0.15);
+    background: var(--secondary);
+    color: var(--text);
+    font-size: 0.9rem;
+    font-family: var(--font);
+    outline: none;
+    transition: border-color 0.18s, box-shadow 0.18s;
+    min-width: 0;
+}
+
+.input-group input:focus,
+.bmi-group input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-dim);
+}
+
+.bmi-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.bmi-result {
+    grid-column: 1 / -1;
+    font-size: 0.88rem;
+    color: var(--accent);
+    font-weight: 600;
+    padding: 0.5rem;
+    text-align: center;
+    background: rgba(0, 191, 166, 0.08);
+    border-radius: var(--r-sm);
+    min-height: 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.optional-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+/* ── LOADING / ERROR STATES ──────────────────────────────────── */
+.loading-state {
+    text-align: center;
+    padding: 3rem 1.5rem;
+}
+
+.spinner {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 3px solid rgba(0, 191, 166, 0.15);
+    border-top: 3px solid var(--primary);
+    margin: 0 auto 1.4rem;
+    animation: spin 0.7s linear infinite;
+}
+
+.loading-state h2 {
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+.loading-state p {
+    color: var(--text-muted);
+    font-size: 0.86rem;
+}
+
+.error-state {
+    text-align: center;
+    padding: 2.5rem 1rem;
+}
+
+.error-state h2 {
+    color: var(--error);
+    font-size: 1.05rem;
+    margin-bottom: 0.7rem;
+}
+
+.error-state p {
+    color: var(--text-muted);
+    font-size: 0.86rem;
+    margin-bottom: 1.2rem;
+}
+
+.error-state button {
+    padding: 0.7rem 1.5rem;
+    background: var(--secondary);
+    border: 1px solid rgba(0, 191, 166, 0.2);
+    border-radius: var(--r-sm);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: background 0.18s, border-color 0.18s;
+}
+
+.error-state button:hover {
+    background: rgba(0, 191, 166, 0.1);
+    border-color: var(--primary);
+}
+
+/* ── RESULT CONTAINER ────────────────────────────────────────── */
+.result-container {
+    padding: 0.5rem 0;
+}
+
+.result-container h2 {
+    font-size: 1.15rem;
+    color: var(--text);
+    font-weight: 700;
+    margin-bottom: 1.4rem;
+    text-align: center;
+}
+
+.result-card {
+    background: var(--card-bg);
+    border-radius: var(--r);
+    padding: 1.2rem 1.4rem;
+    border: 1px solid var(--card-border);
+    margin-bottom: 0.85rem;
+}
+
+.result-card.highlight {
+    border-color: rgba(0, 191, 166, 0.3);
+    box-shadow: 0 0 20px rgba(0, 191, 166, 0.08);
+}
+
+.result-card h3 {
+    color: var(--primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.6rem;
+}
+
+.result-card p {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.6;
+}
+
+.result-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.result-card ul li {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    padding: 0.3rem 0 0.3rem 1.2rem;
+    position: relative;
+    line-height: 1.5;
+}
+
+.result-card ul li::before {
+    content: "›";
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.prediction-label {
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    padding: 0.4rem 0;
+}
+
+.prediction-label.positive {
+    color: var(--error) !important;
+}
+
+.prediction-label.negative {
+    color: var(--success) !important;
+}
+
+.disclaimer {
+    font-size: 0.76rem;
+    color: var(--text-faint);
+    text-align: center;
+    margin: 1rem 0 1.4rem;
+    line-height: 1.6;
+    padding: 0 0.5rem;
+}
+
+/* ── CHECK ANOTHER DISEASE BUTTON ────────────────────────────── */
+.restart-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 0.9rem 2rem;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border: none;
+    border-radius: var(--r-sm);
+    color: #fff;
+    font-family: var(--font);
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 22px var(--primary-glow);
+    transition: opacity 0.18s, transform 0.15s;
+    margin-top: 0.4rem;
+}
+
+.restart-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────── */
+@media (max-width: 600px) {
+    .question-modal {
+        padding: 1.6rem 1.2rem;
+        border-radius: 16px;
+    }
+
+    .nav-bar {
+        padding: 0.85rem 1rem;
+    }
+
+    .nav-greeting {
+        display: none !important;
+    }
+
+    .nav-btn span {
+        display: none;
+    }
+
+    .nav-btn {
+        padding: 0.45rem 0.7rem;
+    }
+
+    .bmi-group {
+        grid-template-columns: 1fr;
+    }
+}

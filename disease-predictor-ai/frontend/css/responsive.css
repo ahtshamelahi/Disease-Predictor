@@ -1,0 +1,21 @@
+@media(max-width: 768px) {
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .search-box {
+        flex-direction: column;
+    }
+
+    #ai-orb {
+        width: 180px;
+        height: 180px;
+    }
+
+    .results-section,
+    .recommendations-section {
+        grid-template-columns: 1fr;
+    }
+
+}

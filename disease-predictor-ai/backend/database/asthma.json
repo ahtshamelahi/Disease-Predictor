@@ -1,0 +1,68 @@
+{
+    "questions": [
+        "Do you experience shortness of breath?",
+        "Do you have wheezing while breathing?",
+        "Do you cough mostly at night?",
+        "Do physical activities trigger breathing difficulty?",
+        "Do you feel chest tightness?",
+        "Do allergies trigger your symptoms?",
+        "Do cold air or smoke worsen your breathing?",
+        "Do you use inhaler frequently?",
+        "Do you wake up at night due to breathing issues?",
+        "Do you feel tired after mild activity?"
+    ],
+    "risk_factors": {
+        "shortness_breath": 2,
+        "wheezing": 2,
+        "night_cough": 1,
+        "exercise_trigger": 2,
+        "chest_tightness": 2,
+        "allergy_trigger": 1,
+        "smoke_trigger": 2,
+        "inhaler_use": 2,
+        "night_wakeup": 2,
+        "fatigue": 1
+    },
+    "recommendations": {
+        "high": {
+            "disease": "Severe Asthma",
+            "medicines": [
+                "Inhaler (Salbutamol)",
+                "Corticosteroids"
+            ],
+            "warnings": [
+                "Avoid smoke and pollution",
+                "Avoid cold air exposure"
+            ],
+            "tips": [
+                "Carry inhaler always",
+                "Avoid heavy exercise"
+            ]
+        },
+        "medium": {
+            "disease": "Moderate Asthma",
+            "medicines": [
+                "Inhaler",
+                "Antihistamines"
+            ],
+            "warnings": [
+                "Avoid dust and allergens"
+            ],
+            "tips": [
+                "Use air purifier",
+                "Monitor breathing daily"
+            ]
+        },
+        "low": {
+            "disease": "Mild Asthma",
+            "medicines": [
+                "As needed inhaler"
+            ],
+            "warnings": [],
+            "tips": [
+                "Exercise lightly",
+                "Avoid triggers"
+            ]
+        }
+    }
+}

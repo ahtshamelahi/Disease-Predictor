@@ -1,0 +1,51 @@
+#ai-orb {
+    animation: floatOrb 3s ease-in-out infinite;
+}
+
+@keyframes floatOrb {
+    0% {
+        transform: translateY(0px) scale(1);
+    }
+
+    50% {
+        transform: translateY(-20px) scale(1.05);
+    }
+
+    100% {
+        transform: translateY(0px) scale(1);
+    }
+}
+
+.scanner {
+    animation: scannerPulse 2s infinite;
+}
+
+@keyframes scannerPulse {
+    0% {
+        box-shadow: 0 0 10px #00F5FF;
+    }
+
+    50% {
+        box-shadow: 0 0 40px #00F5FF;
+    }
+
+    100% {
+        box-shadow: 0 0 10px #00F5FF;
+    }
+}
+
+.result-card,
+.recommendation-card {
+    transition: 0.4s;
+}
+
+.result-card:hover,
+.recommendation-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 30px rgba(0, 245, 255, 0.3);
+}
+
+.search-box button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #00F5FF;
+}
