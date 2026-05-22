@@ -9,7 +9,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 
 BASE_DIR  = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = os.path.join(BASE_DIR, "..", "database", "dataset.csv")
-SAVE_DIR  = r"D:\disease predictor\disease-predictor-ai\backend\models"
+SAVE_DIR  = os.path.join(BASE_DIR, "..", "models")
 
 DISEASE_MAP = {
     "diabetes"      : "Type 2 Diabetes",
