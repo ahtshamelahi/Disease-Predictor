@@ -703,3 +703,25 @@ header p {
     margin: 0 !important;
     display: inline;
 }
+.header-logo {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 0.6rem;
+}
+.header-logo h1 {
+    margin: 0 !important;
+    display: inline !important;
+}
+.header-logo-icon {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 16px var(--primary-glow);
+}
