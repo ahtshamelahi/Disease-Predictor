@@ -3,7 +3,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     if (!window.supabaseClient) {
-        console.error("Supabase not loaded! Check js/supabase.js path.");
+        console.error("Supabase not loaded!");
         document.getElementById("authMsg").textContent = "Connection error. Please refresh.";
         return;
     }
@@ -15,10 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.session) window.location.href = "index.html";
     });
 
-    // ── 2. TABS ───────────────────────────────────────────────────────────────
     if (typeof window.authMode === 'undefined') window.authMode = "login";
 
-    // ── 3. EMAIL / PASSWORD AUTH ──────────────────────────────────────────────
+    // ── 2. MAIN AUTH BUTTON ───────────────────────────────────────────────────
     document.getElementById("authBtn").onclick = async () => {
 
         const email    = document.getElementById("emailInput").value.trim();
@@ -33,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.disabled    = true;
         btn.textContent = "Please wait...";
 
-        // ── LOGIN ──
+        // ── LOGIN ──────────────────────────────────────────────────────────
         if (window.authMode === "login") {
             const { error } = await sb.auth.signInWithPassword({ email, password });
             btn.disabled = false; btn.textContent = "Login";
@@ -42,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // ── SIGNUP ──
+        // ── SIGNUP ─────────────────────────────────────────────────────────
         const name = document.getElementById("nameInput").value.trim();
         if (!name) {
             showError("Please enter your full name.");
@@ -59,8 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (error) { showError(friendlyError(error.message)); return; }
 
-        // Supabase returns identities=[] silently for duplicate emails
-        if (data?.user?.identities?.length === 0) {
+        // Duplicate email: Supabase returns user with empty identities array
+        if (data?.user?.identities !== undefined && data.user.identities.length === 0) {
             showError("This email is already registered. Please login instead.");
             document.getElementById("loginTab").click();
             document.getElementById("emailInput").value = email;
@@ -68,14 +67,14 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        showSuccess("Account created! Check your email to confirm, then login.");
+        showSuccess("✓ Account created! Check your email to confirm, then login.");
     };
 
     document.getElementById("passInput").addEventListener("keydown", (e) => {
         if (e.key === "Enter") document.getElementById("authBtn").click();
     });
 
-    // ── 4. GOOGLE OAUTH ───────────────────────────────────────────────────────
+    // ── 3. GOOGLE OAUTH ───────────────────────────────────────────────────────
     document.getElementById("googleBtn").onclick = async () => {
         const btn = document.getElementById("googleBtn");
         btn.disabled = true; btn.textContent = "Redirecting to Google...";
@@ -89,15 +88,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // ── 5. FORGOT PASSWORD ────────────────────────────────────────────────────
-    const forgotBtn  = document.getElementById("forgotBtn");
+    // ── 4. FORGOT PASSWORD ────────────────────────────────────────────────────
     const modal      = document.getElementById("modal");
     const modalClose = document.getElementById("modalClose");
     const resetBtn   = document.getElementById("resetBtn");
     const resetEmail = document.getElementById("resetEmail");
     const resetMsg   = document.getElementById("resetMsg");
 
-    forgotBtn.addEventListener("click", () => {
+    document.getElementById("forgotBtn").addEventListener("click", () => {
         resetEmail.value     = document.getElementById("emailInput").value.trim();
         resetMsg.textContent = "";
         resetMsg.className   = "msg";
@@ -113,8 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const email = resetEmail.value.trim();
         if (!email) {
             resetMsg.textContent = "Please enter your email address.";
-            resetMsg.className   = "msg error";
-            return;
+            resetMsg.className   = "msg error"; return;
         }
 
         resetBtn.disabled = true; resetBtn.textContent = "Sending...";
@@ -123,8 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
             redirectTo: window.location.origin + "/reset-password.html"
         });
 
-        resetBtn.disabled    = false;
-        resetBtn.textContent = "Send Reset Link";
+        resetBtn.disabled = false; resetBtn.textContent = "Send Reset Link";
 
         if (error) {
             resetMsg.textContent = friendlyError(error.message);
@@ -148,10 +144,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     function clearMsg() {
         const el = document.getElementById("authMsg");
-        el.textContent = ""; el.className = "auth-error";
+        el.textContent = ""; el.className = "";
     }
     function friendlyError(msg) {
         if (msg.includes("Invalid login"))       return "Wrong email or password. Please try again.";
+        if (msg.includes("invalid_credentials")) return "Wrong email or password. Please try again.";
         if (msg.includes("Email not confirmed")) return "Please confirm your email first, then login.";
         if (msg.includes("already registered"))  return "This email is already registered. Try logging in.";
         if (msg.includes("Password should"))     return "Password must be at least 6 characters.";
