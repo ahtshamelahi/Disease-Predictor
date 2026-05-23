@@ -1,27 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login — AI Disease Predictor</title>
+    <title>Login — MediScan AI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2300BFA6'/><path d='M10 50h18l12-30 18 60 12-30h20' stroke='white' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=DM+Sans:wght@300;400;500;600&display=swap"
-        rel="stylesheet" media="print" onload="this.media='all'" />
-    <noscript>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=DM+Sans:wght@300;400;500;600&display=swap"
-            rel="stylesheet" />
-    </noscript>
-
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" /></noscript>
     <link rel="stylesheet" href="css/login.css" />
 </head>
-
 <body>
 
     <div class="bg" aria-hidden="true">
@@ -35,75 +24,59 @@
     <main class="center">
         <div class="card" id="card">
 
-            <!-- Logo -->
             <div class="logo">
                 <div class="logo-icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
-                        stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
                     </svg>
                 </div>
                 <span class="logo-name">MediScan AI</span>
             </div>
 
-            <!-- Heading -->
             <div class="heading">
                 <h1 class="title" id="cardTitle">Welcome back</h1>
                 <p class="subtitle" id="cardSub">Sign in to your health dashboard</p>
             </div>
 
-            <!-- Tabs -->
             <div class="tabs" role="tablist">
-                <button class="tab active" id="loginTab" role="tab" aria-selected="true">Login</button>
-                <button class="tab" id="signupTab" role="tab" aria-selected="false">Sign Up</button>
+                <button class="tab active" id="loginTab" role="tab">Login</button>
+                <button class="tab" id="signupTab" role="tab">Sign Up</button>
             </div>
 
-            <!-- Fields -->
             <div class="fields">
 
-                <!-- Full name — signup only -->
                 <div class="field" id="nameField" style="display:none">
                     <label class="label" for="nameInput">Full Name</label>
                     <div class="input-wrap">
-                        <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="8" r="4" />
-                            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                        <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
                         </svg>
                         <input type="text" id="nameInput" placeholder="Full name" autocomplete="name" />
                     </div>
                 </div>
 
-                <!-- Email -->
                 <div class="field">
                     <label class="label" for="emailInput">Email</label>
                     <div class="input-wrap">
-                        <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="4" width="20" height="16" rx="2" />
-                            <path d="m22 7-10 7L2 7" />
+                        <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-10 7L2 7" />
                         </svg>
-                        <input type="email" id="emailInput" placeholder="fa24-bcs-011@cuilahore.edu.pk"
-                            autocomplete="email" />
+                        <input type="email" id="emailInput" placeholder="you@example.com" autocomplete="email" />
                     </div>
                 </div>
 
-                <!-- Password -->
                 <div class="field">
                     <div class="label-row">
                         <label class="label" for="passInput">Password</label>
                         <button class="forgot-link" id="forgotBtn" type="button">Forgot password?</button>
                     </div>
                     <div class="input-wrap">
-                        <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="11" width="18" height="11" rx="2" />
-                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
                         </svg>
                         <input type="password" id="passInput" placeholder="Password" autocomplete="current-password" />
                         <button class="eye-btn" id="eyeBtn" type="button" aria-label="Toggle password">
-                            <svg id="eyeIcon" width="15" height="15" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg id="eyeIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                                 <circle cx="12" cy="12" r="3" />
                             </svg>
@@ -113,16 +86,12 @@
 
             </div>
 
-            <!-- Message -->
             <p class="msg" id="authMsg"></p>
 
-            <!-- Submit -->
             <button class="btn-main" id="authBtn">Login</button>
 
-            <!-- Divider -->
             <div class="divider"><span>or</span></div>
 
-            <!-- Google -->
             <button class="btn-google" id="googleBtn">
                 <svg width="17" height="17" viewBox="0 0 48 48">
                     <path fill="#EA4335" d="M24 9.5c3.1 0 5.8 1.1 8 2.9l6-6C34.5 3.1 29.6 1 24 1 14.8 1 7 6.7 3.7 14.6l7 5.4C12.4 13.6 17.7 9.5 24 9.5z" />
@@ -140,7 +109,6 @@
         </div>
     </main>
 
-    <!-- ── FORGOT PASSWORD MODAL ── -->
     <div class="modal-wrap" id="modal">
         <div class="modal">
             <button class="modal-x" id="modalClose" aria-label="Close">&times;</button>
@@ -149,10 +117,8 @@
             <div class="field">
                 <label class="label" for="resetEmail">Email address</label>
                 <div class="input-wrap">
-                    <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2" y="4" width="20" height="16" rx="2" />
-                        <path d="m22 7-10 7L2 7" />
+                    <svg class="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-10 7L2 7" />
                     </svg>
                     <input type="email" id="resetEmail" placeholder="you@example.com" />
                 </div>
@@ -162,14 +128,15 @@
         </div>
     </div>
 
-    <!-- ── SCRIPTS ── -->
     <script>
-        // ── Tabs (instant, no Supabase needed) ───────────────────
+        // ── Tabs — instant, no Supabase needed ───────────────────
         const loginTab  = document.getElementById("loginTab");
         const signupTab = document.getElementById("signupTab");
         const authBtn   = document.getElementById("authBtn");
         const nameField = document.getElementById("nameField");
         const authMsg   = document.getElementById("authMsg");
+
+        window.authMode = "login";
 
         loginTab.onclick = () => {
             window.authMode = "login";
@@ -178,7 +145,7 @@
             authBtn.textContent = "Login";
             nameField.style.display = "none";
             authMsg.textContent = "";
-            authMsg.className = "auth-error";
+            authMsg.className = "";
         };
 
         signupTab.onclick = () => {
@@ -188,7 +155,7 @@
             authBtn.textContent = "Sign Up";
             nameField.style.display = "flex";
             authMsg.textContent = "";
-            authMsg.className = "auth-error";
+            authMsg.className = "";
         };
 
         // ── Eye toggle ────────────────────────────────────────────
@@ -211,5 +178,4 @@
     <script src="js/auth.js" defer></script>
 
 </body>
-
 </html>
