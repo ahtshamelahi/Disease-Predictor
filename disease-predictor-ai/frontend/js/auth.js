@@ -33,56 +33,42 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.disabled    = true;
         btn.textContent = "Please wait...";
 
+        // ── LOGIN ──
         if (window.authMode === "login") {
-
             const { error } = await sb.auth.signInWithPassword({ email, password });
             btn.disabled = false; btn.textContent = "Login";
             if (error) { showError(friendlyError(error.message)); return; }
             window.location.href = "index.html";
-
-        } else {
-
-            const name = document.getElementById("nameInput").value.trim();
-            if (!name) {
-                showError("Please enter your full name.");
-                btn.disabled = false; btn.textContent = "Sign Up";
-                return;
-            }
-
-            // ── Check if email already exists ──
-            // Try signing in with a wrong password — if error is "Invalid login"
-            // it means the email EXISTS. If error is "user not found" it's new.
-            const { error: loginCheck } = await sb.auth.signInWithPassword({
-                email,
-                password: "____check____"
-            });
-
-            const emailExists =
-                loginCheck &&
-                (loginCheck.message.includes("Invalid login") ||
-                 loginCheck.message.includes("Email not confirmed") ||
-                 loginCheck.message.includes("invalid_credentials"));
-
-            if (emailExists) {
-                btn.disabled = false; btn.textContent = "Sign Up";
-                showError("This email is already registered. Please login instead.");
-                // Switch to login tab and prefill email
-                document.getElementById("loginTab").click();
-                document.getElementById("emailInput").value = email;
-                document.getElementById("passInput").focus();
-                return;
-            }
-
-            // Email is new — proceed with real signup
-            const { error: signupError } = await sb.auth.signUp({
-                email, password,
-                options: { data: { full_name: name } }
-            });
-
-            btn.disabled = false; btn.textContent = "Sign Up";
-            if (signupError) { showError(friendlyError(signupError.message)); return; }
-            showSuccess("Account created! Check your email to confirm, then login.");
+            return;
         }
+
+        // ── SIGNUP ──
+        const name = document.getElementById("nameInput").value.trim();
+        if (!name) {
+            showError("Please enter your full name.");
+            btn.disabled = false; btn.textContent = "Sign Up";
+            return;
+        }
+
+        const { data, error } = await sb.auth.signUp({
+            email, password,
+            options: { data: { full_name: name } }
+        });
+
+        btn.disabled = false; btn.textContent = "Sign Up";
+
+        if (error) { showError(friendlyError(error.message)); return; }
+
+        // Supabase returns identities=[] silently for duplicate emails
+        if (data?.user?.identities?.length === 0) {
+            showError("This email is already registered. Please login instead.");
+            document.getElementById("loginTab").click();
+            document.getElementById("emailInput").value = email;
+            document.getElementById("passInput").focus();
+            return;
+        }
+
+        showSuccess("Account created! Check your email to confirm, then login.");
     };
 
     document.getElementById("passInput").addEventListener("keydown", (e) => {
@@ -93,12 +79,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("googleBtn").onclick = async () => {
         const btn = document.getElementById("googleBtn");
         btn.disabled = true; btn.textContent = "Redirecting to Google...";
-
         const { error } = await sb.auth.signInWithOAuth({
             provider: "google",
             options: { redirectTo: window.location.origin + "/index.html" }
         });
-
         if (error) {
             showError(error.message);
             btn.disabled = false; btn.textContent = "Continue with Google";
@@ -133,27 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        resetBtn.disabled = true; resetBtn.textContent = "Checking...";
-
-        // Check if email is registered using wrong-password trick
-        const { error: check } = await sb.auth.signInWithPassword({
-            email,
-            password: "____check____"
-        });
-
-        const emailExists =
-            check &&
-            (check.message.includes("Invalid login") ||
-             check.message.includes("Email not confirmed") ||
-             check.message.includes("invalid_credentials"));
-
-        if (!emailExists) {
-            resetBtn.disabled    = false;
-            resetBtn.textContent = "Send Reset Link";
-            resetMsg.textContent = "No account found with this email. Please sign up first.";
-            resetMsg.className   = "msg error";
-            return;
-        }
+        resetBtn.disabled = true; resetBtn.textContent = "Sending...";
 
         const { error } = await sb.auth.resetPasswordForEmail(email, {
             redirectTo: window.location.origin + "/reset-password.html"
