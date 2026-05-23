@@ -33,43 +33,55 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.disabled    = true;
         btn.textContent = "Please wait...";
 
-        let result;
-
         if (window.authMode === "login") {
-            result = await sb.auth.signInWithPassword({ email, password });
+
+            const result = await sb.auth.signInWithPassword({ email, password });
+            btn.disabled = false; btn.textContent = "Login";
+            if (result.error) { showError(friendlyError(result.error.message)); return; }
+            window.location.href = "index.html";
+
         } else {
+
             const name = document.getElementById("nameInput").value.trim();
             if (!name) {
                 showError("Please enter your full name.");
                 btn.disabled = false; btn.textContent = "Sign Up";
                 return;
             }
-            result = await sb.auth.signUp({
-                email, password,
-                options: { data: { full_name: name } }
+
+            // ── Check if email already exists before signing up ──
+            const { data: checkData } = await sb.auth.signUp({
+                email,
+                password: "probe_" + Math.random().toString(36).slice(2),
             });
-        }
 
-        btn.disabled    = false;
-        btn.textContent = window.authMode === "login" ? "Login" : "Sign Up";
+            console.log("probe identities:", JSON.stringify(checkData?.user?.identities));
 
-        if (result.error) { showError(friendlyError(result.error.message)); return; }
+            const alreadyExists = !checkData?.user?.identities || checkData.user.identities.length === 0;
 
-        if (window.authMode === "signup") {
-            const identities = result.data?.user?.identities;
-            if (identities && identities.length === 0) {
-                // Email already registered — auto-send reset link
+            if (alreadyExists) {
+                btn.disabled = false; btn.textContent = "Sign Up";
+                // Auto-send reset link
                 await sb.auth.resetPasswordForEmail(email, {
                     redirectTo: window.location.origin + "/reset-password.html"
                 });
                 showError("This email is already registered. A password reset link has been sent to your inbox.");
                 document.getElementById("loginTab").click();
                 document.getElementById("emailInput").value = email;
-            } else {
-                showSuccess("Account created! Check your email to confirm, then login.");
+                return;
             }
-        } else {
-            window.location.href = "index.html";
+
+            // Email is new — do the real signup
+            const result = await sb.auth.signUp({
+                email, password,
+                options: { data: { full_name: name } }
+            });
+
+            btn.disabled = false; btn.textContent = "Sign Up";
+
+            if (result.error) { showError(friendlyError(result.error.message)); return; }
+
+            showSuccess("Account created! Check your email to confirm, then login.");
         }
     };
 
@@ -121,15 +133,15 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        resetBtn.disabled = true; resetBtn.textContent = "Sending...";
+        resetBtn.disabled = true; resetBtn.textContent = "Checking...";
 
-        // Check if email exists first by attempting signUp with a dummy flow
+        // Check if email is registered
         const { data: checkData } = await sb.auth.signUp({
             email,
-            password: "check_" + Math.random().toString(36),
+            password: "probe_" + Math.random().toString(36).slice(2),
         });
 
-        const emailExists = checkData?.user?.identities?.length === 0;
+        const emailExists = !checkData?.user?.identities || checkData.user.identities.length === 0;
 
         if (!emailExists) {
             resetBtn.disabled    = false;
