@@ -35,9 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (window.authMode === "login") {
 
-            const result = await sb.auth.signInWithPassword({ email, password });
+            const { error } = await sb.auth.signInWithPassword({ email, password });
             btn.disabled = false; btn.textContent = "Login";
-            if (result.error) { showError(friendlyError(result.error.message)); return; }
+            if (error) { showError(friendlyError(error.message)); return; }
             window.location.href = "index.html";
 
         } else {
@@ -49,38 +49,38 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // ── Check if email already exists before signing up ──
-            const { data: checkData } = await sb.auth.signUp({
+            // ── Check if email already exists ──
+            // Try signing in with a wrong password — if error is "Invalid login"
+            // it means the email EXISTS. If error is "user not found" it's new.
+            const { error: loginCheck } = await sb.auth.signInWithPassword({
                 email,
-                password: "probe_" + Math.random().toString(36).slice(2),
+                password: "____check____"
             });
 
-            console.log("probe identities:", JSON.stringify(checkData?.user?.identities));
+            const emailExists =
+                loginCheck &&
+                (loginCheck.message.includes("Invalid login") ||
+                 loginCheck.message.includes("Email not confirmed") ||
+                 loginCheck.message.includes("invalid_credentials"));
 
-            const alreadyExists = !checkData?.user?.identities || checkData.user.identities.length === 0;
-
-            if (alreadyExists) {
+            if (emailExists) {
                 btn.disabled = false; btn.textContent = "Sign Up";
-                // Auto-send reset link
-                await sb.auth.resetPasswordForEmail(email, {
-                    redirectTo: window.location.origin + "/reset-password.html"
-                });
-                showError("This email is already registered. A password reset link has been sent to your inbox.");
+                showError("This email is already registered. Please login instead.");
+                // Switch to login tab and prefill email
                 document.getElementById("loginTab").click();
                 document.getElementById("emailInput").value = email;
+                document.getElementById("passInput").focus();
                 return;
             }
 
-            // Email is new — do the real signup
-            const result = await sb.auth.signUp({
+            // Email is new — proceed with real signup
+            const { error: signupError } = await sb.auth.signUp({
                 email, password,
                 options: { data: { full_name: name } }
             });
 
             btn.disabled = false; btn.textContent = "Sign Up";
-
-            if (result.error) { showError(friendlyError(result.error.message)); return; }
-
+            if (signupError) { showError(friendlyError(signupError.message)); return; }
             showSuccess("Account created! Check your email to confirm, then login.");
         }
     };
@@ -135,13 +135,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         resetBtn.disabled = true; resetBtn.textContent = "Checking...";
 
-        // Check if email is registered
-        const { data: checkData } = await sb.auth.signUp({
+        // Check if email is registered using wrong-password trick
+        const { error: check } = await sb.auth.signInWithPassword({
             email,
-            password: "probe_" + Math.random().toString(36).slice(2),
+            password: "____check____"
         });
 
-        const emailExists = !checkData?.user?.identities || checkData.user.identities.length === 0;
+        const emailExists =
+            check &&
+            (check.message.includes("Invalid login") ||
+             check.message.includes("Email not confirmed") ||
+             check.message.includes("invalid_credentials"));
 
         if (!emailExists) {
             resetBtn.disabled    = false;
