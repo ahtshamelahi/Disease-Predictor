@@ -24,7 +24,7 @@ def predict_disease(disease_type, answers):
     model, features = load_model(disease_type)
 
     if model is None:
-        return {"error": f"Model for '{disease_type}' not found. Run train_model.py first."}
+        return {"error": f"Model for '{disease_type}' is not trained yet. It will be available in coming updates."}
 
     input_data = preprocess_answers(disease_type, answers)
 
