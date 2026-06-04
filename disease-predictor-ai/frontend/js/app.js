@@ -232,8 +232,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             console.error("Backend error:", err);
             questionFlow.innerHTML = `
                 <div class="error-state">
-                    <h2>⚠ Server Not Connected</h2>
-                    <p>Make sure your Python backend is running on port 5000.</p>
+                    <h2>Network Connection Problem</h2>
+                    <p>Network Connection is not Stable</p>
                     <button onclick="location.reload()">Try Again</button>
                 </div>`;
         }
